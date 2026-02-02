@@ -29,4 +29,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Scraper
-        run: python your_script_name.py
+        run: PG_price_playwright.py
