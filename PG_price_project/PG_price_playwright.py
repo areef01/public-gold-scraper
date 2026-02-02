@@ -30,6 +30,7 @@ def scrape_public_gold():
                 f.write(f"{timestamp},{clean_price}\n")
                 
             print(f"Success: {timestamp} -> RM {clean_price}")
+            print("Still on progress")
         except Exception as e:
             print(f"Error: {e}")
         finally:
