@@ -1,9 +1,11 @@
 name: Public Gold Scraper
-
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main", "dev" ]
+  schedule:
+    - cron: '0 0 * * *' # Optional: Runs every day at midnight
+
+permissions:
+  contents: write  # <--- CRITICAL: Allows the bot to push the CSV back to your repo
 
 jobs:
   build:
@@ -13,7 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: ./PG_price_project
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +28,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r PG_price_project/requirements.txt
+
+      # CRITICAL STEP: This downloads the actual Chromium browser
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
 
       - name: Run Scraper
-        run: PG_price_playwright.py
+        # Added 'python' before the filename and ensuring path is correct
+        run: python PG_price_project/PG_price_playwright.py
+
